@@ -21,28 +21,28 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
-        _zoomOutRoute(const OnboardingScreen()),
+        _parallaxZoomRoute(const OnboardingScreen()),
       );
     });
   }
 
-  Route _zoomOutRoute(Widget page) {
+  Route _parallaxZoomRoute(Widget page) {
     return PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 600),
+      transitionDuration: const Duration(milliseconds: 700),
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: ScaleTransition(
-            scale: Tween<double>(
-              begin: 0.95,
-              end: 1.0,
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOut,
-              ),
+        return Transform.scale(
+          scale: Tween<double>(
+            begin: 1.1,
+            end: 1.0,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
             ),
+          ).value,
+          child: FadeTransition(
+            opacity: animation,
             child: child,
           ),
         );

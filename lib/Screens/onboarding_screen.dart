@@ -3,6 +3,7 @@ import 'package:glowvy/Utils/app_assets.dart';
 import 'package:glowvy/Utils/app_theme.dart';
 import '../Utils/app_text.dart';
 import '../models/onboarding_model.dart';
+import 'auth_screens/create_account_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -18,20 +19,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<OnboardingModel> onboardingList = [
     OnboardingModel(
       image: AppAssets.onboarding1,
-      title: 'Various Collections Of The Latest Products',
-      description: 'Urna amet, suspendisse ullamcorper ac elit diam facilisis cursus vestibulum.',
+      title: 'Discover Curated Beauty Collections',
+      description:
+      'Explore handpicked beauty essentials crafted to match the latest trends and timeless elegance.',
     ),
     OnboardingModel(
       image: AppAssets.onboarding2,
-      title: 'Complete Collection Of Colors And Sizes',
+      title: 'Every Shade. Every Size. Just for You',
       description:
-      'Urna amet, suspendisse ullamcorper ac elit diam facilisis cursus vestibulum.',
+      'Find the perfect match with an inclusive range of colors, sizes, and styles designed for all.',
     ),
     OnboardingModel(
       image: AppAssets.onboarding3,
-      title: 'Find The Most Suitable Outfit For You',
+      title: 'Glow With Confidence',
       description:
-      'Urna amet, suspendisse ullamcorper ac elit diam facilisis cursus vestibulum.',
+      'Shop effortlessly and elevate your look with products made to enhance your natural beauty.',
     ),
   ];
 
@@ -119,10 +121,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.appColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      createAccountRoute(const CreateAccountScreen()),
+                    );
+                  },
                   child: Text(
                     'Create Account',
                     style: AppFontStyles.titleSemiBold(
@@ -150,4 +156,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
+}
+
+Route createAccountRoute(Widget page) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 500),
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final slide = Tween<Offset>(
+        begin: const Offset(0, 0.15),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+        ),
+      );
+
+      final fade = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(animation);
+
+      return SlideTransition(
+        position: slide,
+        child: FadeTransition(
+          opacity: fade,
+          child: child,
+        ),
+      );
+    },
+  );
 }

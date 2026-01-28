@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
       title: 'Glowvy',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppTheme.white),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppTheme.black,
+        ),
       ),
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
